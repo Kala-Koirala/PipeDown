@@ -11,8 +11,8 @@ A fun and lightweight recreation of the classic <b>Flappy Bird</b> game — buil
 - 🎯 **Classic Gameplay** — Same addictive style as the original Flappy Bird
 - 🏆 **Score Tracking** — Earn points for every gap passed  
 - ⚡ **Quick Restart** — Restart instantly after a Game Over  
-- ⌨️ **Simple Controls** — Just the spacebar to play
-- 🟪 **Theme Selector** - Change the color of the backgroung and the bird
+- ⌨️ **Simple Controls** — Just the space bar to play
+- 🟪 **Theme Selector** - Change the color of the background and the bird
 
 
 ---
