@@ -98,7 +98,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 
         Pipe bottomPipe = new Pipe(bottomPipeImg);
         bottomPipe.y = topPipe.y + pipeHeight + openingSpace;
-        pipes.add(bottomPipe)
+        pipes.add(bottomPipe);
     }
 
     public void paintComponent(Graphics g) {
@@ -119,16 +119,15 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.PLAIN, 24));
             if(gameOver){
-                godrawString("Game Over: "+ String.valueOf((int)score), 10, 35);
+                g.drawString("Game Over: "+ String.valueOf((int)score), 10, 35);
 
-                else
+            }else
                 {
-                    g.dramString("Score: "+ String.valueOf((int)score), 10, 35);
+                    g.drawString("Score: "+ String.valueOf((int)score), 10, 35);
                 }
             }
 
         }
-    }
 
     public void move() {
         velocityY += gravity;
@@ -152,15 +151,14 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 
             if (bird.y >boardHeight){
                 gameOver = true;
-            }
+            }}
         }
-        public boolean collision(bird a, pipe b){
+        public boolean collision(Bird a, Pipe b){
             return a.x<b.x +b.width && 
             a.x +a.width >b.x &&
             a.y <b.y +b.height &&
             a.y +a.height >b.y;
         }
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
