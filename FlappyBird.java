@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     int birdHeight = 24;
 
     class Bird {
+
         int x = birdX;
         int y = birdY;
         int width = birdWidth;
@@ -36,6 +38,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     int pipeHeight = 512;
 
     class Pipe {
+
         int x = pipeX;
         int y = pipeY;
         int width = pipeWidth;
@@ -69,11 +72,11 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         //         regardless of which directory java is run from.
         // FIX 2: Typo corrected: "upflag" -> "upflap"
         backgroundImg = new ImageIcon(getClass().getResource("/background-day.png")).getImage();
-        birdImg       = new ImageIcon(getClass().getResource("/yellowbird-upflap.png")).getImage();
-        topPipeImg    = new ImageIcon(getClass().getResource("/pipe-green.png")).getImage();
+        birdImg = new ImageIcon(getClass().getResource("/yellowbird-upflap.png")).getImage();
+        topPipeImg = new ImageIcon(getClass().getResource("/pipe-green.png")).getImage();
         bottomPipeImg = new ImageIcon(getClass().getResource("/pipe-green.png")).getImage();
 
-        bird  = new Bird(birdImg);
+        bird = new Bird(birdImg);
         pipes = new ArrayList<>();
 
         placePipesTimer = new Timer(1500, new ActionListener() {
@@ -89,7 +92,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     }
 
     public void placePipe() {
-        int randomPipeY  = (int) (pipeY - pipeHeight / 4 - Math.random() * (pipeHeight / 2));
+        int randomPipeY = (int) (pipeY - pipeHeight / 4 - Math.random() * (pipeHeight / 2));
         int openingSpace = boardHeight / 4;
 
         Pipe topPipe = new Pipe(topPipeImg);
@@ -155,10 +158,10 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     }
 
     public boolean collision(Bird a, Pipe b) {
-        return a.x < b.x + b.width  &&
-               a.x + a.width > b.x  &&
-               a.y < b.y + b.height &&
-               a.y + a.height > b.y;
+        return a.x < b.x + b.width
+                && a.x + a.width > b.x
+                && a.y < b.y + b.height
+                && a.y + a.height > b.y;
     }
 
     @Override
@@ -187,6 +190,11 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-    @Override public void keyTyped(KeyEvent e) {}
-    @Override public void keyReleased(KeyEvent e) {}
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
 }

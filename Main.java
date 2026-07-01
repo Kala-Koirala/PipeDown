@@ -1,10 +1,9 @@
 
-
 import javax.swing.*;
 
 public class Main {
 
-    public static void main(String[] args)  throws Exception{
+    public static void main(String[] args) throws Exception {
         int boardWidth = 360;
         int boardHeight = 640;
 
