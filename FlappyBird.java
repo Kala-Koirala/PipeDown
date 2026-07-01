@@ -71,10 +71,10 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         // FIX 1: Use getClass().getResource() so images load from classpath
         //         regardless of which directory java is run from.
         // FIX 2: Typo corrected: "upflag" -> "upflap"
-        backgroundImg = new ImageIcon(getClass().getResource("/background-day.png")).getImage();
-        birdImg = new ImageIcon(getClass().getResource("/yellowbird-upflap.png")).getImage();
-        topPipeImg = new ImageIcon(getClass().getResource("/pipe-green.png")).getImage();
-        bottomPipeImg = new ImageIcon(getClass().getResource("/pipe-green.png")).getImage();
+        backgroundImg = new ImageIcon(getClass().getResource("assets/background-day.png")).getImage();
+        birdImg = new ImageIcon(getClass().getResource("assets/yellowbird-upflap.png")).getImage();
+        topPipeImg = new ImageIcon(getClass().getResource("assets/pipe-green.png")).getImage();
+        bottomPipeImg = new ImageIcon(getClass().getResource("assets/pipe-green.png")).getImage();
 
         bird = new Bird(birdImg);
         pipes = new ArrayList<>();
