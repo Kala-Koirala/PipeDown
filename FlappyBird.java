@@ -73,7 +73,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         // FIX 2: Typo corrected: "upflag" -> "upflap"
         backgroundImg = new ImageIcon(getClass().getResource("assets/background-day.png")).getImage();
         birdImg = new ImageIcon(getClass().getResource("assets/yellowbird-upflap.png")).getImage();
-        topPipeImg = new ImageIcon(getClass().getResource("assets/pipe-green.png")).getImage();
+        topPipeImg = new ImageIcon(getClass().getResource("assets/pipe-green-unpside.png")).getImage();
         bottomPipeImg = new ImageIcon(getClass().getResource("assets/pipe-green.png")).getImage();
 
         bird = new Bird(birdImg);
