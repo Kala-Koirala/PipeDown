@@ -1,8 +1,16 @@
-
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 
@@ -19,37 +27,10 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     int birdWidth = 34;
     int birdHeight = 24;
 
-    class Bird {
-
-        int x = birdX;
-        int y = birdY;
-        int width = birdWidth;
-        int height = birdHeight;
-        Image img;
-
-        Bird(Image img) {
-            this.img = img;
-        }
-    }
-
     int pipeX = boardWidth;
     int pipeY = 0;
     int pipeWidth = 64;
     int pipeHeight = 512;
-
-    class Pipe {
-
-        int x = pipeX;
-        int y = pipeY;
-        int width = pipeWidth;
-        int height = pipeHeight;
-        Image img;
-        boolean passed = false;
-
-        Pipe(Image img) {
-            this.img = img;
-        }
-    }
 
     Bird bird;
     int velocityX = -4;
@@ -68,15 +49,12 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
         addKeyListener(this);
 
-        // FIX 1: Use getClass().getResource() so images load from classpath
-        //         regardless of which directory java is run from.
-        // FIX 2: Typo corrected: "upflag" -> "upflap"
         backgroundImg = new ImageIcon(getClass().getResource("assets/background-day.png")).getImage();
         birdImg = new ImageIcon(getClass().getResource("assets/yellowbird-upflap.png")).getImage();
         topPipeImg = new ImageIcon(getClass().getResource("assets/pipe-green-unpside.png")).getImage();
         bottomPipeImg = new ImageIcon(getClass().getResource("assets/pipe-green.png")).getImage();
 
-        bird = new Bird(birdImg);
+        bird = new Bird(birdX, birdY, birdWidth, birdHeight, birdImg);
         pipes = new ArrayList<>();
 
         placePipesTimer = new Timer(1500, new ActionListener() {
@@ -95,12 +73,10 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         int randomPipeY = (int) (pipeY - pipeHeight / 4 - Math.random() * (pipeHeight / 2));
         int openingSpace = boardHeight / 4;
 
-        Pipe topPipe = new Pipe(topPipeImg);
-        topPipe.y = randomPipeY;
+        Pipe topPipe = new TopPipe(pipeX, randomPipeY, pipeWidth, pipeHeight, topPipeImg);
         pipes.add(topPipe);
 
-        Pipe bottomPipe = new Pipe(bottomPipeImg);
-        bottomPipe.y = topPipe.y + pipeHeight + openingSpace;
+        Pipe bottomPipe = new BottomPipe(pipeX, topPipe.y + pipeHeight + openingSpace, pipeWidth, pipeHeight, bottomPipeImg);
         pipes.add(bottomPipe);
     }
 
@@ -111,19 +87,14 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     }
 
     private void draw(Graphics g) {
-        // Background
         g.drawImage(backgroundImg, 0, 0, boardWidth, boardHeight, null);
 
-        // Bird
         g.drawImage(bird.img, bird.x, bird.y, bird.width, bird.height, null);
 
-        // Pipes
         for (Pipe pipe : pipes) {
             g.drawImage(pipe.img, pipe.x, pipe.y, pipe.width, pipe.height, null);
         }
 
-        // FIX 3: Score drawn OUTSIDE the pipe loop, so it always shows
-        //         even when there are no pipes yet.
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 24));
         if (gameOver) {
@@ -144,7 +115,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 
             if (!pipe.passed && bird.x > pipe.x + pipe.width) {
                 pipe.passed = true;
-                score += 0.5; // 0.5 per pipe; two pipes = 1 point per gap
+                score += 0.5;
             }
 
             if (collision(bird, pipe)) {
