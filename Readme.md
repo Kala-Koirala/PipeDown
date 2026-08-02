@@ -1,12 +1,15 @@
 # 🐤 PipeDown — A Flappy Bird Clone in Java (Swing)
 
 A fun, lightweight recreation of the classic **Flappy Bird** — built from scratch in Java using Swing, with progressive difficulty, persistent high scores, and live-synthesized MIDI sound effects (no audio files needed!).
-
 <p align="center">
-  <img alt="Java" src="https://img.shields.io/badge/java-swing-orange">
+  <img alt="Java" src="https://img.shields.io/badge/Java-Swing-orange?logo=openjdk&logoColor=white">
   <img alt="Platform" src="https://img.shields.io/badge/Platform-Desktop-blue">
-  <img alt="Status" src="https://img.shields.io/badge/Status-InProgress-yellow">
+  <img alt="Status" src="https://img.shields.io/badge/Status-In%20Progress-yellow">
+  <a href="https://github.com/Kala-Koirala/PipeDown/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/Kala-Koirala/PipeDown?style=flat"></a>
+  <a href="https://github.com/Kala-Koirala/PipeDown/issues"><img alt="Issues" src="https://img.shields.io/github/issues/Kala-Koirala/PipeDown"></a>
+  <a href="https://github.com/Kala-Koirala/PipeDown/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/Kala-Koirala/PipeDown"></a>
 </p>
+
 
 ---
 
@@ -72,6 +75,18 @@ cd PipeDown
 # 2. Compile and run in one line
 javac Main.java && java Main
 ```
-
-
 On first launch, you'll be asked to enter a player name — your scores are saved and tracked against that name for future sessions.
+
+---
+
+## 🙌 Contributors
+ 
+Thanks to everyone who's worked on this project:
+ 
+- **Purnima Koirala** - [@Kala-Koirala](https://github.com/Kala-Koirala)
+- **Shahisha Adhikari** - [@Shahisha1](https://github.com/Shahisha1)
+- **Shreya Dhakal** [@Shreyaoff](https://github.com/shreyaoff)
+- **Kabir Lama** - [@kabirlama28-web](https://github.com/kabirlama28-web)
+
+Want to contribute too? Fork the [repo](https://github.com/Kala-Koirala/PipeDown), make your changes, and open a pull request against `main`.
+
