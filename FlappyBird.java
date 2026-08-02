@@ -53,6 +53,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     boolean isEnteringName = true;
     boolean waitingForStart = true;
     SoundManager soundManager;
+    ThemeManager themeManager;
 
     FlappyBird(JFrame parentFrame) {
         this.parentFrame = parentFrame;
@@ -63,9 +64,10 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         highScoreManager = new HighScoreManager();
         difficultyManager = new DifficultyManager();
         soundManager = new SoundManager();
+        themeManager = new ThemeManager();
 
-        backgroundImg = new ImageIcon(getClass().getResource("assets/background-day.png")).getImage();
-        birdImg = new ImageIcon(getClass().getResource("assets/yellowbird-upflap.png")).getImage();
+        backgroundImg = themeManager.getBackgroundImg();
+        birdImg = themeManager.getBirdImg();
         topPipeImg = new ImageIcon(getClass().getResource("assets/pipe-green-unpside.png")).getImage();
         bottomPipeImg = new ImageIcon(getClass().getResource("assets/pipe-green.png")).getImage();
 
@@ -89,6 +91,14 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 
     public void loadCurrentPlayerName() {
         highScoreManager.loadCurrentPlayerName();
+        repaint();
+    }
+
+     public void changeTheme() {
+        themeManager.nextTheme();
+        backgroundImg = themeManager.getBackgroundImg();
+        birdImg = themeManager.getBirdImg();
+        bird.img = birdImg;
         repaint();
     }
 
@@ -132,6 +142,11 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
             String msg = "Press SPACE to Start";
             int msgWidth = g.getFontMetrics().stringWidth(msg);
             g.drawString(msg, (boardWidth - msgWidth) / 2, boardHeight / 2);
+
+            g.setFont(new Font("Arial", Font.PLAIN, 14));
+            String themeMsg = "Theme: " + themeManager.getThemeName() + " (Press T to change)";
+            int themeMsgWidth = g.getFontMetrics().stringWidth(themeMsg);
+            g.drawString(themeMsg, (boardWidth - themeMsgWidth) / 2, boardHeight / 2 + 30);
         }
 
         if (isEnteringName) {
@@ -206,6 +221,10 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (isEnteringName) {
+            return;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_T) {
+            changeTheme();
             return;
         }
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
