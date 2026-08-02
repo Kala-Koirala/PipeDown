@@ -47,6 +47,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 
     JFrame parentFrame;
     HighScoreManager highScoreManager;
+    DifficultyManager difficultyManager;
     boolean isEnteringName = true;
     boolean waitingForStart = true;
 
@@ -57,6 +58,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         addKeyListener(this);
 
         highScoreManager = new HighScoreManager();
+        difficultyManager = new DifficultyManager();
 
         backgroundImg = new ImageIcon(getClass().getResource("assets/background-day.png")).getImage();
         birdImg = new ImageIcon(getClass().getResource("assets/yellowbird-upflap.png")).getImage();
@@ -88,7 +90,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 
     public void placePipe() {
         int randomPipeY = (int) (pipeY - pipeHeight / 4 - Math.random() * (pipeHeight / 2));
-        int openingSpace = boardHeight / 4;
+        int openingSpace = difficultyManager.getOpeningSpace(score);
 
         Pipe topPipe = new TopPipe(pipeX, randomPipeY, pipeWidth, pipeHeight, topPipeImg);
         pipes.add(topPipe);
@@ -138,6 +140,12 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
             return;
         }
 
+         velocityX = difficultyManager.getVelocityX(score);
+        int currentSpawnInterval = difficultyManager.getSpawnInterval(score);
+        if (placePipesTimer.getDelay() != currentSpawnInterval) {
+            placePipesTimer.setDelay(currentSpawnInterval);
+        }
+
         velocityY += gravity;
         bird.y += velocityY;
         bird.y = Math.max(bird.y, 0);
@@ -175,6 +183,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         if (gameOver) {
             gameLoop.stop();
             placePipesTimer.stop();
+            highScoreManager.checkAndUpdateHighScore((int) score); 
         }
     }
 
@@ -197,6 +206,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
             if (gameOver) {
                 bird.y = birdY;
                 velocityY = 0;
+                velocityX = -4;
                 pipes.clear();
                 score = 0;
                 gameOver = false;
