@@ -30,6 +30,10 @@ A fun, lightweight recreation of the classic **Flappy Bird** — built from scra
 | Key | Action |
 |---|---|
 | `SPACE` | Start the game / Flap / Restart after Game Over |
+| `M` | Menu |
+| `Q` | Quit |
+| `P` | Pause / Resume |
+
 
 ---
 
