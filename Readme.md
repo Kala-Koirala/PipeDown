@@ -6,7 +6,6 @@ A fun, lightweight recreation of the classic **Flappy Bird** — built from scra
   <img alt="Platform" src="https://img.shields.io/badge/Platform-Desktop-blue">
   <img alt="Status" src="https://img.shields.io/badge/Status-In%20Progress-yellow">
   <a href="https://github.com/Kala-Koirala/PipeDown/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/Kala-Koirala/PipeDown?style=flat"></a>
-  <a href="https://github.com/Kala-Koirala/PipeDown/issues"><img alt="Issues" src="https://img.shields.io/github/issues/Kala-Koirala/PipeDown"></a>
   <a href="https://github.com/Kala-Koirala/PipeDown/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/Kala-Koirala/PipeDown"></a>
 </p>
 
