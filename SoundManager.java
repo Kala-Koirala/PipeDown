@@ -2,7 +2,7 @@ import javax.sound.midi.*;
 
 public class SoundManager {
     private Synthesizer synth;
-    private MidiChannel channel;   // "lead" channel — used for jump/score/game over/menu
+    private MidiChannel channel; // "lead" channel — used for jump/score/game over/menu
     private MidiChannel bellChannel; // "sparkle" channel — used for exciting moments
     private boolean soundEnabled = true;
 
@@ -35,11 +35,12 @@ public class SoundManager {
     }
 
     public void playJump() {
-        if (!soundEnabled || channel == null) return;
+        if (!soundEnabled || channel == null)
+            return;
         new Thread(() -> {
             try {
                 // Quick 3-note upward chirp instead of 2 — feels snappier
-                channel.noteOn(60, 90);  // C5
+                channel.noteOn(60, 90); // C5
                 Thread.sleep(35);
                 channel.noteOff(60);
                 channel.noteOn(64, 100); // E5
@@ -55,7 +56,8 @@ public class SoundManager {
     }
 
     public void playScore() {
-        if (!soundEnabled || channel == null) return;
+        if (!soundEnabled || channel == null)
+            return;
         new Thread(() -> {
             try {
                 // Wider, punchier interval (C6 -> G6 instead of C6 -> E6)
@@ -72,7 +74,8 @@ public class SoundManager {
     }
 
     public void playGameOver() {
-        if (!soundEnabled || channel == null) return;
+        if (!soundEnabled || channel == null)
+            return;
         new Thread(() -> {
             try {
                 // Descending notes, same idea as before but a touch snappier
@@ -98,10 +101,11 @@ public class SoundManager {
     // Plays when the player beats their personal best score.
     // Uses the bell channel for extra sparkle, plus a chord at the end.
     public void playHighScore() {
-        if (!soundEnabled || bellChannel == null) return;
+        if (!soundEnabled || bellChannel == null)
+            return;
         new Thread(() -> {
             try {
-                int[] notes = {60, 64, 67, 72}; // rising run: C5 -> E5 -> G5 -> C6
+                int[] notes = { 60, 64, 67, 72 }; // rising run: C5 -> E5 -> G5 -> C6
                 for (int note : notes) {
                     bellChannel.noteOn(note, 110);
                     Thread.sleep(70);
@@ -122,7 +126,8 @@ public class SoundManager {
     }
 
     public void playMenuSelect() {
-        if (!soundEnabled || channel == null) return;
+        if (!soundEnabled || channel == null)
+            return;
         new Thread(() -> {
             try {
                 // Two quick notes instead of one — feels more like a "confirm" blip
@@ -139,7 +144,8 @@ public class SoundManager {
     }
 
     public void playClick() {
-        if (!soundEnabled || channel == null) return;
+        if (!soundEnabled || channel == null)
+            return;
         new Thread(() -> {
             try {
                 channel.noteOn(84, 70);
@@ -154,7 +160,8 @@ public class SoundManager {
     // A quick, cheerful rising "ding" on the bell channel — stands out from
     // the regular gameplay sounds so the player really notices it.
     public void playLevelUp() {
-        if (!soundEnabled || bellChannel == null) return;
+        if (!soundEnabled || bellChannel == null)
+            return;
         new Thread(() -> {
             try {
                 bellChannel.noteOn(65, 100); // F5

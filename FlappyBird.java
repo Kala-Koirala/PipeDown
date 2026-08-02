@@ -99,7 +99,8 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         Pipe topPipe = new TopPipe(pipeX, randomPipeY, pipeWidth, pipeHeight, topPipeImg);
         pipes.add(topPipe);
 
-        Pipe bottomPipe = new BottomPipe(pipeX, topPipe.y + pipeHeight + openingSpace, pipeWidth, pipeHeight, bottomPipeImg);
+        Pipe bottomPipe = new BottomPipe(pipeX, topPipe.y + pipeHeight + openingSpace, pipeWidth, pipeHeight,
+                bottomPipeImg);
         pipes.add(bottomPipe);
     }
 

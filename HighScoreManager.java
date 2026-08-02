@@ -56,7 +56,8 @@ public class HighScoreManager {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.trim().isEmpty()) continue;
+                if (line.trim().isEmpty())
+                    continue;
                 String[] parts = line.split(":");
                 if (parts.length == 2) {
                     String player = parts[0].trim();
@@ -82,32 +83,33 @@ public class HighScoreManager {
     }
 
     public boolean checkAndUpdateHighScore(int score) {
-    String key = currentPlayerName.toLowerCase();
-    int personalBest = getPersonalBest(currentPlayerName);
-    if (score > personalBest) {
-        playerScores.put(key, score);
-        playerOriginalNames.put(key, currentPlayerName);
+        String key = currentPlayerName.toLowerCase();
+        int personalBest = getPersonalBest(currentPlayerName);
+        if (score > personalBest) {
+            playerScores.put(key, score);
+            playerOriginalNames.put(key, currentPlayerName);
 
-        if (score > highScore) {
-            highScore = score;
-            highScorePlayer = currentPlayerName;
-        }
-
-        try (PrintWriter writer = new PrintWriter(new FileWriter("highscore.txt"))) {
-            for (Map.Entry<String, Integer> entry : playerScores.entrySet()) {
-                String origName = playerOriginalNames.getOrDefault(entry.getKey(), entry.getKey());
-                writer.println(origName + ":" + entry.getValue());
+            if (score > highScore) {
+                highScore = score;
+                highScorePlayer = currentPlayerName;
             }
-        } catch (IOException e) {
-            e.printStackTrace();// Handle the exception as needed
+
+            try (PrintWriter writer = new PrintWriter(new FileWriter("highscore.txt"))) {
+                for (Map.Entry<String, Integer> entry : playerScores.entrySet()) {
+                    String origName = playerOriginalNames.getOrDefault(entry.getKey(), entry.getKey());
+                    writer.println(origName + ":" + entry.getValue());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();// Handle the exception as needed
+            }
+            return true;
         }
-        return true;
+        return false;
     }
-    return false;
-}
 
     public int getPersonalBest(String playerName) {
-        if (playerName == null) return 0;
+        if (playerName == null)
+            return 0;
         return playerScores.getOrDefault(playerName.toLowerCase(), 0);
     }
 

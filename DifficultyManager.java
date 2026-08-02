@@ -13,7 +13,6 @@ public class DifficultyManager {
         return Math.max(currentVelocity, -8);
     }
 
-
     public int getOpeningSpace(double score) {
         int gapStep = (int) (score / 3);
         int reduction = gapStep * 5;
