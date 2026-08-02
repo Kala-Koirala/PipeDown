@@ -8,7 +8,7 @@ public class DifficultyManager {
 
     public int getVelocityX(double score) {
         int speedStep = (int) (score / 5);
-        int additionalSpeed = speedStep; // 1 unit additional speed per step
+        int additionalSpeed = speedStep; 
         int currentVelocity = baseVelocityX - additionalSpeed;
         return Math.max(currentVelocity, -8);
     }

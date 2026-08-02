@@ -45,7 +45,6 @@ public class HighScoreManager {
         highScore = 0;
         highScorePlayer = "None";
 
-        // Pre-register current player name just in case
         playerOriginalNames.put(currentPlayerName.toLowerCase(), currentPlayerName);
 
         File file = new File("highscore.txt");
@@ -67,13 +66,12 @@ public class HighScoreManager {
                         playerScores.put(key, score);
                         playerOriginalNames.put(key, player);
 
-                        // Track the overall highest score
                         if (score > highScore) {
                             highScore = score;
                             highScorePlayer = player;
                         }
                     } catch (NumberFormatException e) {
-                        // Skip malformed lines
+                        
                     }
                 }
             }
@@ -100,7 +98,7 @@ public class HighScoreManager {
                     writer.println(origName + ":" + entry.getValue());
                 }
             } catch (IOException e) {
-                e.printStackTrace();// Handle the exception as needed
+                e.printStackTrace();
             }
             return true;
         }
@@ -125,10 +123,7 @@ public class HighScoreManager {
         return highScore;
     }
 
-    /**
-     * Deletes the persisted player name and high score files.
-     * Call this wherever the player quits the game.
-     */
+    
     public static void clearSavedData() {
         File nameFile = new File("player_name.txt");
         if (nameFile.exists()) {

@@ -12,22 +12,20 @@ public class UsernameDialog extends JDialog {
     private BufferedImage bgImage;
 
     public UsernameDialog(Frame owner, Runnable onSubmitCallback) {
-        super(owner, "User Name", false); // modeless
+        super(owner, "User Name", false);
         this.onSubmitCallback = onSubmitCallback;
-        setUndecorated(true); // no title bar, no minimize/close buttons
+        setUndecorated(true); 
         setLayout(null);
-        setSize(300, 300); // matches textbox_bg.jpeg dimensions
+        setSize(300, 300); 
         setLocationRelativeTo(owner);
         setResizable(false);
 
-        // Load background image (bird/sky/grass asset)
         try {
             bgImage = ImageIO.read(new File("textbox_bg.jpeg"));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
 
-        // Content panel draws the background image instead of a black overlay
         JPanel contentPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -41,18 +39,17 @@ public class UsernameDialog extends JDialog {
         contentPanel.setLayout(null);
         setContentPane(contentPanel);
 
-        // "Player Name:" label, placed in the empty space above the textfield
         JLabel nameLabel = new JLabel("Player Name:", JLabel.CENTER);
         nameLabel.setBounds(70, 108, 160, 24);
         nameLabel.setFont(new Font("Monospaced", Font.BOLD, 15));
-        nameLabel.setForeground(new Color(0, 51, 102)); // dark navy, contrasts against light sky
+        nameLabel.setForeground(new Color(0, 51, 102));
         contentPanel.add(nameLabel);
 
         textField = new JTextField();
         textField.setBounds(65, 135, 170, 28);
         textField.setFont(new Font("Monospaced", Font.BOLD, 16));
         textField.setForeground(Color.DARK_GRAY);
-        textField.setBackground(new Color(245, 222, 179)); // wheat background
+        textField.setBackground(new Color(245, 222, 179)); 
         textField.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
         textField.setHorizontalAlignment(JTextField.CENTER);
         contentPanel.add(textField);
@@ -88,7 +85,6 @@ public class UsernameDialog extends JDialog {
         });
         contentPanel.add(quitBtn);
 
-        // Allow pressing Enter in text field to submit
         textField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -102,7 +98,6 @@ public class UsernameDialog extends JDialog {
         if (!input.isEmpty()) {
             username = input;
         }
-        // Save to file
         try (PrintWriter writer = new PrintWriter(new FileWriter("player_name.txt"))) {
             writer.println(username);
         } catch (IOException ex) {

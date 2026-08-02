@@ -45,7 +45,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     Timer placePipesTimer;
     boolean gameOver = false;
     double score = 0;
-    int lastDifficultyStep = 0; // tracks difficulty level so playLevelUp() fires once per tier
+    int lastDifficultyStep = 0;
 
     JFrame parentFrame;
     HighScoreManager highScoreManager;
