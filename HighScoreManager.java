@@ -81,30 +81,30 @@ public class HighScoreManager {
         }
     }
 
-    public void checkAndUpdateHighScore(int score) {
-        String key = currentPlayerName.toLowerCase();
-        int personalBest = getPersonalBest(currentPlayerName);
-        if (score > personalBest) {
-            playerScores.put(key, score);
-            playerOriginalNames.put(key, currentPlayerName);
+    public boolean checkAndUpdateHighScore(int score) {
+    String key = currentPlayerName.toLowerCase();
+    int personalBest = getPersonalBest(currentPlayerName);
+    if (score > personalBest) {
+        playerScores.put(key, score);
+        playerOriginalNames.put(key, currentPlayerName);
 
-            // Check if this beats the overall high score
-            if (score > highScore) {
-                highScore = score;
-                highScorePlayer = currentPlayerName;
-            }
-
-            // Write all player scores back to highscore.txt
-            try (PrintWriter writer = new PrintWriter(new FileWriter("highscore.txt"))) {
-                for (Map.Entry<String, Integer> entry : playerScores.entrySet()) {
-                    String origName = playerOriginalNames.getOrDefault(entry.getKey(), entry.getKey());
-                    writer.println(origName + ":" + entry.getValue());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (score > highScore) {
+            highScore = score;
+            highScorePlayer = currentPlayerName;
         }
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter("highscore.txt"))) {
+            for (Map.Entry<String, Integer> entry : playerScores.entrySet()) {
+                String origName = playerOriginalNames.getOrDefault(entry.getKey(), entry.getKey());
+                writer.println(origName + ":" + entry.getValue());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();// Handle the exception as needed
+        }
+        return true;
     }
+    return false;
+}
 
     public int getPersonalBest(String playerName) {
         if (playerName == null) return 0;

@@ -2,7 +2,8 @@ import javax.sound.midi.*;
 
 public class SoundManager {
     private Synthesizer synth;
-    private MidiChannel channel;
+    private MidiChannel channel;   // "lead" channel — used for jump/score/game over/menu
+    private MidiChannel bellChannel; // "sparkle" channel — used for exciting moments
     private boolean soundEnabled = true;
 
     public SoundManager() {
@@ -10,15 +11,26 @@ public class SoundManager {
             synth = MidiSystem.getSynthesizer();
             synth.open();
             MidiChannel[] channels = synth.getChannels();
-            if (channels != null && channels.length > 0) {
-                // Use channel 0 for sound effects
+            if (channels != null && channels.length > 1) {
+                // Channel 0: our regular retro square-wave lead
                 channel = channels[0];
-                // MIDI Program 80 is "Lead 1 (square)" which sounds like a retro square wave synth
+                channel.programChange(80); // Lead 1 (square)
+
+                // Channel 1: a bright bell/chime sound, kept separate so it
+                // can play AT THE SAME TIME as channel 0 without fighting
+                // over the same instrument. Program 9 = Glockenspiel.
+                bellChannel = channels[1];
+                bellChannel.programChange(9);
+            } else if (channels != null && channels.length > 0) {
+                // Fallback: only one channel available, share it
+                channel = channels[0];
                 channel.programChange(80);
+                bellChannel = channel;
             }
         } catch (Exception e) {
             System.err.println("Could not initialize MIDI Synthesizer: " + e.getMessage());
             channel = null;
+            bellChannel = null;
         }
     }
 
@@ -26,13 +38,16 @@ public class SoundManager {
         if (!soundEnabled || channel == null) return;
         new Thread(() -> {
             try {
-                // Rising jump pitch (C5 to G5 quickly)
-                channel.noteOn(60, 80);
-                Thread.sleep(40);
+                // Quick 3-note upward chirp instead of 2 — feels snappier
+                channel.noteOn(60, 90);  // C5
+                Thread.sleep(35);
                 channel.noteOff(60);
-                channel.noteOn(67, 90);
-                Thread.sleep(80);
-                channel.noteOff(67);
+                channel.noteOn(64, 100); // E5
+                Thread.sleep(35);
+                channel.noteOff(64);
+                channel.noteOn(69, 110); // A5
+                Thread.sleep(70);
+                channel.noteOff(69);
             } catch (Exception e) {
                 // Ignore thread interruptions
             }
@@ -43,13 +58,13 @@ public class SoundManager {
         if (!soundEnabled || channel == null) return;
         new Thread(() -> {
             try {
-                // Upbeat score sound (C6 to E6)
-                channel.noteOn(72, 90);
-                Thread.sleep(80);
+                // Wider, punchier interval (C6 -> G6 instead of C6 -> E6)
+                channel.noteOn(72, 100);
+                Thread.sleep(70);
                 channel.noteOff(72);
-                channel.noteOn(76, 100);
-                Thread.sleep(150);
-                channel.noteOff(76);
+                channel.noteOn(79, 110);
+                Thread.sleep(130);
+                channel.noteOff(79);
             } catch (Exception e) {
                 // Ignore thread interruptions
             }
@@ -60,16 +75,20 @@ public class SoundManager {
         if (!soundEnabled || channel == null) return;
         new Thread(() -> {
             try {
-                // Melancholy descending death notes (D5 -> Bb4 -> G4)
+                // Descending notes, same idea as before but a touch snappier
                 channel.noteOn(62, 90);
-                Thread.sleep(150);
+                Thread.sleep(130);
                 channel.noteOff(62);
                 channel.noteOn(58, 90);
-                Thread.sleep(150);
+                Thread.sleep(130);
                 channel.noteOff(58);
+                // Final note is a CHORD: two notes played at once (root + fifth)
+                // for a fuller, more "final" sounding thud
                 channel.noteOn(55, 100);
-                Thread.sleep(350);
+                channel.noteOn(43, 90); // one octave + a fifth lower
+                Thread.sleep(400);
                 channel.noteOff(55);
+                channel.noteOff(43);
             } catch (Exception e) {
                 // Ignore thread interruptions
             }
@@ -77,49 +96,53 @@ public class SoundManager {
     }
 
     // Plays when the player beats their personal best score.
-    // This is just like playScore(), but with more notes so it feels
-    // more exciting/rewarding than the normal "you passed a pipe" sound.
+    // Uses the bell channel for extra sparkle, plus a chord at the end.
     public void playHighScore() {
-        if (!soundEnabled || channel == null) return;
+        if (!soundEnabled || bellChannel == null) return;
         new Thread(() -> {
             try {
-                // Ascending 4-note "fanfare" (C5 -> E5 -> G5 -> C6)
-                int[] notes = {60, 64, 67, 72};
+                int[] notes = {60, 64, 67, 72}; // rising run: C5 -> E5 -> G5 -> C6
                 for (int note : notes) {
-                    channel.noteOn(note, 100);
-                    Thread.sleep(90);
-                    channel.noteOff(note);
+                    bellChannel.noteOn(note, 110);
+                    Thread.sleep(70);
+                    bellChannel.noteOff(note);
                 }
+                // Big finishing CHORD (C6 + E6 + G6 together) for a "ta-da!" moment
+                bellChannel.noteOn(72, 120);
+                bellChannel.noteOn(76, 110);
+                bellChannel.noteOn(79, 110);
+                Thread.sleep(400);
+                bellChannel.noteOff(72);
+                bellChannel.noteOff(76);
+                bellChannel.noteOff(79);
             } catch (Exception e) {
                 // Ignore thread interruptions
             }
         }).start();
     }
 
-    // A short, neutral "blip" for menu actions, like opening/closing
-    // the pause menu. Doesn't need its own thread since it's a single
-    // quick note and won't noticeably freeze the game.
     public void playMenuSelect() {
         if (!soundEnabled || channel == null) return;
         new Thread(() -> {
             try {
-                channel.noteOn(69, 70); // A4, played softly
-                Thread.sleep(60);
+                // Two quick notes instead of one — feels more like a "confirm" blip
+                channel.noteOn(69, 80);
+                Thread.sleep(45);
                 channel.noteOff(69);
+                channel.noteOn(74, 90);
+                Thread.sleep(45);
+                channel.noteOff(74);
             } catch (Exception e) {
                 // Ignore thread interruptions
             }
         }).start();
     }
 
-    // A tiny confirmation "click" — used when the player turns sound
-    // back ON, so they get feedback that the button press worked.
-    // (We never call this while muting, since that would be pointless!)
     public void playClick() {
         if (!soundEnabled || channel == null) return;
         new Thread(() -> {
             try {
-                channel.noteOn(84, 60); // High, short, and quiet
+                channel.noteOn(84, 70);
                 Thread.sleep(30);
                 channel.noteOff(84);
             } catch (Exception e) {
@@ -128,18 +151,21 @@ public class SoundManager {
         }).start();
     }
 
-    // A quick rising "ding" to tell the player the game just got harder.
-    // Called from FlappyBird.java whenever the difficulty tier changes.
+    // A quick, cheerful rising "ding" on the bell channel — stands out from
+    // the regular gameplay sounds so the player really notices it.
     public void playLevelUp() {
-        if (!soundEnabled || channel == null) return;
+        if (!soundEnabled || bellChannel == null) return;
         new Thread(() -> {
             try {
-                channel.noteOn(65, 90); // F5
-                Thread.sleep(60);
-                channel.noteOff(65);
-                channel.noteOn(69, 100); // A5
-                Thread.sleep(80);
-                channel.noteOff(69);
+                bellChannel.noteOn(65, 100); // F5
+                Thread.sleep(50);
+                bellChannel.noteOff(65);
+                bellChannel.noteOn(69, 110); // A5
+                Thread.sleep(50);
+                bellChannel.noteOff(69);
+                bellChannel.noteOn(77, 120); // F6 — jumps up an octave-ish for excitement
+                Thread.sleep(120);
+                bellChannel.noteOff(77);
             } catch (Exception e) {
                 // Ignore thread interruptions
             }

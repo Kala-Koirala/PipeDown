@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -44,12 +45,14 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     Timer placePipesTimer;
     boolean gameOver = false;
     double score = 0;
+    int lastDifficultyStep = 0; // tracks difficulty level so playLevelUp() fires once per tier
 
     JFrame parentFrame;
     HighScoreManager highScoreManager;
     DifficultyManager difficultyManager;
     boolean isEnteringName = true;
     boolean waitingForStart = true;
+    SoundManager soundManager;
 
     FlappyBird(JFrame parentFrame) {
         this.parentFrame = parentFrame;
@@ -59,6 +62,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 
         highScoreManager = new HighScoreManager();
         difficultyManager = new DifficultyManager();
+        soundManager = new SoundManager();
 
         backgroundImg = new ImageIcon(getClass().getResource("assets/background-day.png")).getImage();
         birdImg = new ImageIcon(getClass().getResource("assets/yellowbird-upflap.png")).getImage();
@@ -136,14 +140,20 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     }
 
     public void move() {
-        if(waitingForStart){
+        if (waitingForStart) {
             return;
         }
 
-         velocityX = difficultyManager.getVelocityX(score);
+        velocityX = difficultyManager.getVelocityX(score);
         int currentSpawnInterval = difficultyManager.getSpawnInterval(score);
         if (placePipesTimer.getDelay() != currentSpawnInterval) {
             placePipesTimer.setDelay(currentSpawnInterval);
+        }
+
+        int currentDifficultyStep = (int) (score / 5);
+        if (currentDifficultyStep > lastDifficultyStep) {
+            lastDifficultyStep = currentDifficultyStep;
+            soundManager.playLevelUp();
         }
 
         velocityY += gravity;
@@ -183,7 +193,12 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         if (gameOver) {
             gameLoop.stop();
             placePipesTimer.stop();
-            highScoreManager.checkAndUpdateHighScore((int) score); 
+            boolean isNewHighScore = highScoreManager.checkAndUpdateHighScore((int) score);
+            if (isNewHighScore) {
+                soundManager.playHighScore();
+            } else {
+                soundManager.playGameOver();
+            }
         }
     }
 
@@ -193,7 +208,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
             return;
         }
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            if(waitingForStart){
+            if (waitingForStart) {
                 waitingForStart = false;
                 velocityY = -9;
                 gameLoop.start();
@@ -202,7 +217,6 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
                 return;
             }
 
-            
             if (gameOver) {
                 bird.y = birdY;
                 velocityY = 0;
@@ -212,9 +226,9 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
                 gameOver = false;
                 gameLoop.start();
                 placePipesTimer.start();
-            }
-            else{
+            } else {
                 velocityY = -9;
+                soundManager.playJump();
             }
         }
     }
