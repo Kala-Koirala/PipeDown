@@ -62,6 +62,28 @@ PipeDown/
 ├── UsernameDialog.java              # Popup for entering the player's name
 ├── utils/Size.java                  # Small shared size helper
 └── assets/                          # Sprites and backgrounds
+
+```
+
+## The FSM Diagram
+
+
+```mermaid
+stateDiagram
+  accTitle: Game state flow
+  accDescr: A state diagram showing the flow from starting the game through gameplay, pausing, game over, scoring, the high-score menu, and quitting.
+  direction LR
+  classDef Aqua stroke-width:1px,stroke-dasharray:none,stroke:#46EDC8,fill:#DEFFF8,color:#378E7A;
+  Start --> Playing:Space
+  Playing --> Game_Over:Collide
+  Game_Over --> Score:auto
+  Score --> Menu/Highscore:M
+  Menu/Highscore --> Quit:Q
+  Playing --> Pause:ESC
+  Pause --> Playing:ESC
+  Score --> Start:R
+  Menu/Highscore --> Start:M
+  class Start Aqua
 ```
 
 ---
@@ -69,7 +91,6 @@ PipeDown/
 ## 🚀 Getting Started
 
 **Requirements:** a Java Development Kit (JDK) installed, so both `javac` and `java` are available on your PATH.
-
 
 ```bash
 # 1. Navigate into the project folder
