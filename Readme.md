@@ -85,6 +85,10 @@ PipeDown/
 <br />
       <sub>Figure 3: Paused Screen</sub>
     </td>
+    <td align="center">
+      <img width="451" height="800" alt="image" src="https://github.com/user-attachments/assets/9b236657-5672-4d41-84c1-c82774aaeaa4" />
+        <sub>Figure 4: Username Enter Screen</sub>
+    </td>
   </tr>
 </table>
 
