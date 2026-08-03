@@ -450,52 +450,6 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener, M
         g.setFont(new Font("SansSerif", Font.BOLD, 15));
         g.setColor(new Color(83, 56, 71));
         drawCenteredString(g, highScoreManager.getCurrentPlayerName(), midX, cardY + 120);
-
-        // medal circle based on score
-        drawMedal(g, (int) score, cardX + 35, cardY + 40);
-
-        // restart prompt
-        g.setFont(new Font("SansSerif", Font.BOLD, 16));
-        g.setColor(Color.WHITE);
-        drawCenteredString(g, "Press SPACE to restart", midX, 370);
-    }
-
-    /**
-     * Draw a medal circle based on score thresholds.
-     */
-    private void drawMedal(Graphics2D g, int score, int x, int y) {
-        if (score < 5) {
-            return;   // no medal for score < 5
-
-                }Color medalColor;
-        String label;
-        if (score >= 40) {
-            medalColor = new Color(255, 215, 0);
-            label = "G";
-        } // gold
-        else if (score >= 20) {
-            medalColor = new Color(192, 192, 192);
-            label = "S";
-        } // silver
-        else {
-            medalColor = new Color(205, 127, 50);
-            label = "B";
-        }   // bronze
-
-        int r = 22;
-        g.setColor(medalColor);
-        g.fillOval(x, y, r * 2, r * 2);
-        g.setColor(medalColor.darker());
-        g.setStroke(new BasicStroke(2.5f));
-        g.drawOval(x, y, r * 2, r * 2);
-        // inner shine
-        g.setColor(new Color(255, 255, 255, 90));
-        g.fillOval(x + 5, y + 3, r, r - 2);
-        // letter
-        g.setColor(new Color(80, 50, 20));
-        g.setFont(new Font("SansSerif", Font.BOLD, 20));
-        FontMetrics fm = g.getFontMetrics();
-        g.drawString(label, x + r - fm.stringWidth(label) / 2, y + r + fm.getAscent() / 2 - 2);
     }
 
     //  
