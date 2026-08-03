@@ -65,8 +65,13 @@ PipeDown/
 
 ```
 
-## 🐦 Flappy Bird Game Preview
+## 🐦 Project Preview
 
+<img width="446" height="801" alt="image" src="https://github.com/user-attachments/assets/f1617b6e-e08d-4d2b-9e13-8d6dbd38518a" /> <p>Figure 1: Welcome Screen</p>
+
+<img width="451" height="806" alt="image" src="https://github.com/user-attachments/assets/333272d3-d30e-4766-be39-3f81e28e40aa" /> <p>Figure 2: Game Over Screen </p>
+
+<img width="450" height="796" alt="image" src="https://github.com/user-attachments/assets/75877705-ddfc-4134-aec5-f067cab21386" /> <p>Figure 3: Paused Screen </p>
 
 
 ---
