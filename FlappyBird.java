@@ -86,6 +86,8 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener, M
         this.parentFrame = parentFrame;
         setPreferredSize(new Dimension(boardWidth, boardHeight));
         setFocusable(true);
+
+        inputHandler = new InputHandler(this);
         addKeyListener(inputHandler);
         addMouseListener(inputHandler);
         addMouseMotionListener(inputHandler);
