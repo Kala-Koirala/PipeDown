@@ -38,7 +38,7 @@ public class HighScoreManager {
             }
         }
     }
-
+    //  Load High Scores
     public void loadHighScore() {
         playerScores.clear();
         playerOriginalNames.clear();

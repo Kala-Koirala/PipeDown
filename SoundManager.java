@@ -1,19 +1,23 @@
+
 import javax.sound.midi.*;
 
 public class SoundManager {
+
+    //  Synthesizer and Channels
     private Synthesizer synth;
-    private MidiChannel channel; 
-    private MidiChannel bellChannel; 
+    private MidiChannel channel;
+    private MidiChannel bellChannel;
     private boolean soundEnabled = true;
 
+    //  Constructor 
     public SoundManager() {
-        try {
+        try {// Initialize the synthesizer and channels
             synth = MidiSystem.getSynthesizer();
             synth.open();
             MidiChannel[] channels = synth.getChannels();
-            if (channels != null && channels.length > 1) {
+            if (channels != null && channels.length > 1) {// Use the first channel for general sounds and the second for bell sounds
                 channel = channels[0];
-                channel.programChange(80); 
+                channel.programChange(80);
 
                 bellChannel = channels[1];
                 bellChannel.programChange(9);
@@ -29,18 +33,20 @@ public class SoundManager {
         }
     }
 
+    //  Sound Effects
     public void playJump() {
-        if (!soundEnabled || channel == null)
+        if (!soundEnabled || channel == null) {
             return;
+        }
         new Thread(() -> {
             try {
-                channel.noteOn(60, 90); 
+                channel.noteOn(60, 90);
                 Thread.sleep(35);
                 channel.noteOff(60);
-                channel.noteOn(64, 100); 
+                channel.noteOn(64, 100);
                 Thread.sleep(35);
                 channel.noteOff(64);
-                channel.noteOn(69, 110); 
+                channel.noteOn(69, 110);
                 Thread.sleep(70);
                 channel.noteOff(69);
             } catch (Exception e) {
@@ -48,9 +54,11 @@ public class SoundManager {
         }).start();
     }
 
+    //  Music Effects
     public void playScore() {
-        if (!soundEnabled || channel == null)
+        if (!soundEnabled || channel == null) {
             return;
+        }
         new Thread(() -> {
             try {
                 channel.noteOn(72, 100);
@@ -64,9 +72,11 @@ public class SoundManager {
         }).start();
     }
 
+    //  Game Over Effect
     public void playGameOver() {
-        if (!soundEnabled || channel == null)
+        if (!soundEnabled || channel == null) {
             return;
+        }
         new Thread(() -> {
             try {
                 channel.noteOn(62, 90);
@@ -75,9 +85,9 @@ public class SoundManager {
                 channel.noteOn(58, 90);
                 Thread.sleep(130);
                 channel.noteOff(58);
-               
+
                 channel.noteOn(55, 100);
-                channel.noteOn(43, 90); 
+                channel.noteOn(43, 90);
                 Thread.sleep(400);
                 channel.noteOff(55);
                 channel.noteOff(43);
@@ -86,13 +96,15 @@ public class SoundManager {
         }).start();
     }
 
-    
+
+    //  High Score Effect
     public void playHighScore() {
-        if (!soundEnabled || bellChannel == null)
+        if (!soundEnabled || bellChannel == null) {
             return;
+        }
         new Thread(() -> {
             try {
-                int[] notes = { 60, 64, 67, 72 }; 
+                int[] notes = {60, 64, 67, 72};
                 for (int note : notes) {
                     bellChannel.noteOn(note, 110);
                     Thread.sleep(70);
@@ -110,9 +122,11 @@ public class SoundManager {
         }).start();
     }
 
+    //  Menu Select Effect
     public void playMenuSelect() {
-        if (!soundEnabled || channel == null)
+        if (!soundEnabled || channel == null) {
             return;
+        }
         new Thread(() -> {
             try {
                 channel.noteOn(69, 80);
@@ -126,9 +140,11 @@ public class SoundManager {
         }).start();
     }
 
+    //  Click Effect
     public void playClick() {
-        if (!soundEnabled || channel == null)
+        if (!soundEnabled || channel == null) {
             return;
+        }
         new Thread(() -> {
             try {
                 channel.noteOn(84, 70);
@@ -138,16 +154,18 @@ public class SoundManager {
             }
         }).start();
     }
+    //  Level Up Effect
 
     public void playLevelUp() {
-        if (!soundEnabled || bellChannel == null)
+        if (!soundEnabled || bellChannel == null) {
             return;
+        }
         new Thread(() -> {
             try {
-                bellChannel.noteOn(65, 100); 
+                bellChannel.noteOn(65, 100);
                 Thread.sleep(50);
                 bellChannel.noteOff(65);
-                bellChannel.noteOn(69, 110); 
+                bellChannel.noteOn(69, 110);
                 Thread.sleep(50);
                 bellChannel.noteOff(69);
                 bellChannel.noteOn(77, 120);
@@ -157,7 +175,7 @@ public class SoundManager {
             }
         }).start();
     }
-
+    //  Public API
     public void toggleSound() {
         soundEnabled = !soundEnabled;
     }
