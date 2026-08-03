@@ -58,9 +58,9 @@ PipeDown/
 ├── TopPipe.java / BottomPipe.java  # Pipe variants
 ├── DifficultyManager.java          # Calculates speed, gap size, and spawn rate from score
 ├── HighScoreManager.java           # Loads/saves player names and high scores
+├── ThemeManager.java               # Stores the different themes taht can be toggled
 ├── SoundManager.java               # Generates all sound effects via MIDI
 ├── UsernameDialog.java              # Popup for entering the player's name
-├── utils/Size.java                  # Small shared size helper
 └── assets/                          # Sprites and backgrounds
 
 ```
