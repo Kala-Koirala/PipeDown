@@ -65,7 +65,7 @@ PipeDown/
 
 ```
 
-## The FSM Diagram
+## 📼 The FSM Diagram
 
 
 ```mermaid
