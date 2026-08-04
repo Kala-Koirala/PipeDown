@@ -18,6 +18,9 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
             panel.changeTheme();
             return;
         }
+        if(k == KeyEvent.VK_Q){
+            System.exit(0);
+        }
 
         if (k == KeyEvent.VK_M) {
             if (panel.isMenuVisible) {
